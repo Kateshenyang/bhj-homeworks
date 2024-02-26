@@ -1,10 +1,15 @@
-const countDown = function() {
-	let timer = document.getElementById("timer");
-	const timerId = setInterval(() => {
-		timer -- ;
-		if (timer === 0) {
-			clearInterval(timerId);
-			alert('Вы победили в конкурсе!');
-		}
-	}, 1000);
-}
+document.addEventListener('DOMContentLoaded', function() {
+    const timerElement = document.getElementById('timer');
+    
+    let timeRemaining = parseInt(timerElement.textContent);
+  
+    function updateTimer() {
+      timeRemaining -= 1;
+      timerElement.textContent = timeRemaining;
+      if (timeRemaining <= 0) {
+        clearInterval(timerInterval);
+        alert('Вы победили в конкурсе!');
+      }
+    }
+    const timerInterval = setInterval(updateTimer, 1000);
+  });
