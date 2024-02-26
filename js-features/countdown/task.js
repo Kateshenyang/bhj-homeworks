@@ -7,6 +7,4 @@ const countDown = function() {
 			alert('Вы победили в конкурсе!');
 		}
 	}, 1000);
-
-	return {};
 }
