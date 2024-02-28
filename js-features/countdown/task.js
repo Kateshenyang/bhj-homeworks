@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let timeRemaining = parseInt(timerElement.textContent);
   
     function updateTimer() {
-      timeRemaining -= 1;
+      timeRemaining --;
       timerElement.textContent = timeRemaining;
       if (timeRemaining <= 0) {
         clearInterval(timerInterval);
