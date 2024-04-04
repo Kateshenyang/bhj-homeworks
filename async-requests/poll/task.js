@@ -1,23 +1,34 @@
-document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('DOMContentLoaded', function() {
     const pollTitle = document.getElementById('poll__title');
     const pollAnswers = document.getElementById('poll__answers');
 
-    try {
-        const response = await fetch('https://students.netoservices.ru/nestjs-backend/poll');
-        const pollData = await response.json();
-
-        pollTitle.textContent = pollData.data.title;
-
-        pollData.data.answers.forEach((answer) => {
-            const button = document.createElement('button');
-            button.className = 'poll__answer';
-            button.textContent = answer;
-            button.addEventListener('click', () => {
-                alert('Спасибо, ваш голос засчитан!');
-            });
-            pollAnswers.appendChild(button);
+    function createAnswerButton(text) {
+        const button = document.createElement('button');
+        button.className = 'poll__answer';
+        button.textContent = text;
+        button.addEventListener('click', function() {
+            alert('Спасибо, ваш голос засчитан!');
         });
-    } catch (error) {
-        console.error('Ошибка:', error);
+        return button;
     }
+
+    function loadPollData() {
+        fetch('https://netology-slow-rest.herokuapp.com/poll.php')
+            .then(response => response.json())
+            .then(data => {
+                if (data && data.data) {
+                    pollTitle.textContent = data.data.title;
+
+                    pollAnswers.innerHTML = '';
+
+                    data.data.answers.forEach(answer => {
+                        const answerButton = createAnswerButton(answer);
+                        pollAnswers.appendChild(answerButton);
+                    });
+                }
+            })
+            .catch(error => console.error('Ошибка загрузки данных опроса:', error));
+    }
+
+    loadPollData();
 });
