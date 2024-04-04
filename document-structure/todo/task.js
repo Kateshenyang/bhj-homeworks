@@ -5,32 +5,26 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function addTask() {
         const taskText = taskInput.value.trim();
-        if (taskText !== '') {
-            const taskElement = document.createElement('div');
-            taskElement.className = 'task';
-            taskElement.innerHTML = `
-                <div class="task__title">${taskText}</div>
-                <a href="#" class="task__remove">&times;</a>
-            `;
-            taskElement.querySelector('.task__remove').addEventListener('click', function(event) {
-                event.preventDefault();
-                taskElement.remove();
-            });
+        if (taskText === '') return;
 
-            tasksList.appendChild(taskElement);
-            taskInput.value = '';
-        }
+        const taskElement = document.createElement('div');
+        taskElement.className = 'task';
+        taskElement.innerHTML = `
+            <div class="task__title">${taskText}</div>
+            <a href="#" class="task__remove">&times;</a>
+        `;
+
+        taskElement.querySelector('.task__remove').addEventListener('click', function(event) {
+            event.preventDefault();
+            taskElement.remove();
+        });
+
+        tasksList.appendChild(taskElement);
+        taskInput.value = '';
     }
 
     addTaskButton.addEventListener('click', function(event) {
         event.preventDefault();
         addTask();
-    });
-
-    taskInput.addEventListener('keypress', function(event) {
-        if (event.key === 'Enter') {
-            event.preventDefault();
-            addTask();
-        }
     });
 });
