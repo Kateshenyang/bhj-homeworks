@@ -1,4 +1,3 @@
-<script>
 document.addEventListener('DOMContentLoaded', async () => {
     const pollTitle = document.getElementById('poll__title');
     const pollAnswers = document.getElementById('poll__answers');
@@ -22,4 +21,3 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.error('Ошибка:', error);
     }
 });
-</script>
