@@ -1,34 +1,31 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const pollTitle = document.getElementById('poll__title');
-    const pollAnswers = document.getElementById('poll__answers');
+    const pollTitleElement = document.getElementById('poll__title');
+    const pollAnswersElement = document.getElementById('poll__answers');
 
-    function createAnswerButton(text) {
-        const button = document.createElement('button');
-        button.className = 'poll__answer';
-        button.textContent = text;
-        button.addEventListener('click', function() {
-            alert('Спасибо, ваш голос засчитан!');
+    function createAnswerButtons(answers) {
+        answers.forEach(answer => {
+            const button = document.createElement('button');
+            button.className = 'poll__answer';
+            button.textContent = answer;
+            button.addEventListener('click', function() {
+                alert('Спасибо, ваш голос засчитан!');
+            });
+            pollAnswersElement.appendChild(button);
         });
-        return button;
     }
 
-    function loadPollData() {
-        fetch('https://netology-slow-rest.herokuapp.com/poll.php')
-            .then(response => response.json())
-            .then(data => {
-                if (data && data.data) {
-                    pollTitle.textContent = data.data.title;
-
-                    pollAnswers.innerHTML = '';
-
-                    data.data.answers.forEach(answer => {
-                        const answerButton = createAnswerButton(answer);
-                        pollAnswers.appendChild(answerButton);
-                    });
-                }
-            })
-            .catch(error => console.error('Ошибка загрузки данных опроса:', error));
+    function fetchPollData() {
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', 'https://students.netoservices.ru/nestjs-backend/poll', true);
+        xhr.onreadystatechange = function() {
+            if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                const data = JSON.parse(xhr.responseText);
+                pollTitleElement.textContent = data.data.title;
+                createAnswerButtons(data.data.answers);
+            }
+        };
+        xhr.send();
     }
 
-    loadPollData();
+    fetchPollData();
 });
